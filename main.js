@@ -16,19 +16,21 @@ document.getElementById('submit').addEventListener('click', () => {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer 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`
+            Authorization: `Bearer (YOUR API KEY)`
         },
         body: JSON.stringify(data)
     })
     .then(response => { 
         let res = response.json()
         console.log(res)
+
+        // console.log(res.promise[promiseResult].choices[0].text)
         return res
     })
     // .then(()  => {
     //     let responseData = {
     //         prompt: prompt.value,
-    //         completion: res.
+    //         completion: res.promise.promiseResult.choices[0].text
     //     }
     // })
     .catch((error) => {
