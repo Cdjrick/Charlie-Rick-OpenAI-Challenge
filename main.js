@@ -1,8 +1,28 @@
 let prompt = document.getElementById('prompt')
 
-document.getElementById('submit').addEventListener('click', () => {
-    APIArray = []
+localStorage.removeItem('userChoices')
 
+function updateStorage(responseData) {
+    if(localStorage.getItem('userChoices') === null) {
+        let responseArray = []
+        responseArray.push(responseData)
+
+        localStorage.setItem('userChoices', JSON.stringify(responseArray))
+        console.log('Item has been added')
+
+        return
+    }
+
+    let userChoices = localStorage.getItem('userChoices')
+    let choices = JSON.parse(userChoices)
+
+    choices.push(responseData)
+    localStorage.setItem('userChoices', JSON.stringify(choices))
+
+    console.log('Item has been added')
+}
+
+document.getElementById('submit').addEventListener('click', () => {
     let data = {
         prompt: prompt.value,
         temperature: 0.5,
@@ -20,22 +40,18 @@ document.getElementById('submit').addEventListener('click', () => {
         },
         body: JSON.stringify(data)
     })
-    .then(response => { 
-        let res = response.json()
-        console.log(res)
+    .then((response) => response.json())
+    .then((res)  => {
+        
+        let responseData = {
+            prompt: data.prompt,
+            completion: res.choices[0].text
+        }
 
-        // console.log(res.promise[promiseResult].choices[0].text)
-        return res
+        updateStorage(responseData)
     })
-    // .then(()  => {
-    //     let responseData = {
-    //         prompt: prompt.value,
-    //         completion: res.promise.promiseResult.choices[0].text
-    //     }
-    // })
     .catch((error) => {
         console.log('Error: ', error)
     })
-
     prompt.value = ''
 })
