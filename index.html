@@ -9,9 +9,22 @@
     <title>OpenAI Prompt</title>
 </head>
 <body>
+    <div class="container">
+        <h1>Open AI</h1>
+        <h2>Type a prompt below for a response.</h2>
+        
+        <div class="input">
+            <textarea id="prompt"></textarea>
+            <button id="submit">Submit</button>
+        </div>
+    </div>
     
-    <textarea id="prompt"></textarea>
-    <button id="submit">Submit</button>
+    <div class="displayStorage">
+        <h3>Responses</h3>
+        <div id='savedPrompts' class="savedPrompts">
+
+        </div>
+    </div>
 
     <script src="./main.js"></script>
 </body>
