@@ -1,6 +1,7 @@
 let prompt = document.getElementById('prompt')
 let savedPrompts = document.getElementById('savedPrompts')
 
+// Load and display all localstorage items on page load
 function initializeStorage() {
     if (localStorage.getItem('userChoices') === null) {
         return
@@ -11,6 +12,7 @@ function initializeStorage() {
     displayStorage(choices)
 }
 
+// Store and display all local storage items into an html div
 function displayStorage(choices) {
     let c = choices.length
     while (c--) {
@@ -27,6 +29,7 @@ function displayStorage(choices) {
     }
 }
 
+// Set and get localstorage items to decode
 function updateStorage(responseData) {
     let userChoices = localStorage.getItem('userChoices')
     let choices = JSON.parse(userChoices)
@@ -49,6 +52,7 @@ function updateStorage(responseData) {
 
 initializeStorage()
 
+// Submit button functionality -------- Fetch statement
 document.getElementById('submit').addEventListener('click', () => {
     let data = {
         prompt: prompt.value,
@@ -63,13 +67,20 @@ document.getElementById('submit').addEventListener('click', () => {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer (YOUR_API_KEY)`
+
+            //
+            // ENTER YOUR API KEY HERE -----------
+            Authorization: `Bearer YOUR_API_KEY`
+            //
+            //
+
         },
         body: JSON.stringify(data)
     })
         .then((response) => response.json())
         .then((res) => {
 
+            // Create data object to store the prompt and the completion response from the api
             let responseData = {
                 prompt: data.prompt,
                 completion: res.choices[0].text
@@ -80,5 +91,6 @@ document.getElementById('submit').addEventListener('click', () => {
         .catch((error) => {
             console.log('Error: ', error)
         })
+    // Reset text area
     prompt.value = ''
 })
